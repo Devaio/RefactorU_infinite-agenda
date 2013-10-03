@@ -1,5 +1,5 @@
 $(document).ready(function (){
-
+$.fn.editable.defaults.mode = 'inline';
 //Week and Date Rendering
 	var n = 0
 var dateCounter = function() {
@@ -18,7 +18,7 @@ var dateCounter = function() {
 var initialWeek = function (){
 	var weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	
-	var calList = $('<ul class="calendarWeek"></ul>')
+	var calList = $('<ul class="calendarWeek unstyled"></ul>')
 	
 	for(var i=(new Date().getDay()); i<weekDays.length; i++) {
 		var week = createDay(weekDays[i]);
@@ -44,6 +44,9 @@ var renderWeek = function (){
 		calList.append(item);
 	}
 
+
+
+
 	$('.calendarList').append(calList);
 	console.log('renderWeek')
 
@@ -52,10 +55,17 @@ var renderWeek = function (){
 
 
 var createDay = function(weekdays) {
-		var dayOfWeek = $('<div class="dayOfWeek">{0}</div>'.supplant([weekdays]));
-		var date = $('<div class="date">'+ dateCounter() +'</div>');
-		var appt = $('<span class="appt">test</span>');
+		var dayOfWeek = $('<div class="dayOfWeek"><h3 class="dayHead text-muted">{0}</h3></div>'.supplant([weekdays]));
+		var date = $('<div class="date row"><h4 class="text-info">'+ dateCounter() +'</h4></div><div class="addAppt"><button type="button" class="btn btn-success addApptButton">+</button><span class="apptAddText">Click to add another appointment</span></div><hr>');
+		var appt = $('<div class="apptContainer"><a href="#"  data-placement="right" class="editable editable-click editable open appt small text-muted">Click to enter appointment</a><div class="delAppt"><button type="button" class="btn btn-xs btn-danger delAppt">&times</button><span class="apptDelText">Click to delete this appointment</span></div></div>');
+		$('.appt').editable({
+		    type: 'text',
+		    pk: 1,
+		    url: '#',
+		    title: 'Add Appointment'
+		});
 
+		
 		dayOfWeek.append(date);
 		dayOfWeek.append(appt);
 
@@ -64,35 +74,68 @@ var createDay = function(weekdays) {
 /// End week rendering
 
 
+//
+// Infinite Scroll begin
+var scrollTop = 0;
+var docHeight; 
+var winHeight; 
+var winViewPercent; 
+var scrollPercent; 
 
+$(window).scroll(function(){
+	 scrollTop = $(window).scrollTop(); // distance scrolled from top
+	 docHeight = $(document).height();
+	 winHeight = $(window).height();
+	 winViewPercent = (1-(docHeight-winHeight)/docHeight)
+	 scrollPercent = ((scrollTop) / (docHeight - winHeight) * 100);
 
-
-
-
-
-
+		if(scrollPercent>=85){
+			renderWeek()
+		}
+	
+});
+//infinite scroll end
 
 initialWeek();
 
-
-renderWeek();
-renderWeek();
 renderWeek();
 renderWeek();
 
+$(document).on('click', '.addAppt', function (){
+	$(this).parent().append($('<div class="apptContainer"><a href="#"  data-placement="right" class="editable editable-click editable open appt small text-muted">Click to enter appointment</a><div class="delAppt"><button type="button" class="btn btn-xs btn-danger delAppt">&times</button><span class="apptDelText">Click to delete this appointment</span></div></div>'));
+
+			$('.appt').editable({
+		    type: 'text',
+		    pk: 1,
+		    url: '#',
+		    title: 'Add Appointment'
+		});
+	
+});
 
 
+// add appointment button
+$(document).on('mouseover', '.addAppt', function (){
+	$(this).children('.apptAddText').fadeIn()
+});
 
+$(document).on('mouseleave', '.addAppt', function (){
+	$(this).children('.apptAddText').fadeOut()
+});
 
+// delete button functionality
+$(document).on('click', '.delAppt', function (){
+	$(this).siblings('a').andSelf().fadeOut()
 
+});
 
+$(document).on('mouseover', '.delAppt', function (){
+	$(this).children('.apptDelText').fadeIn()
+});
 
-
-
-
-
-
-
+$(document).on('mouseleave', '.delAppt', function (){
+	$(this).children('.apptDelText').fadeOut()
+});
 
 
 
