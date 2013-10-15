@@ -1,0 +1,20 @@
+Raine's Infinite Agenda - 16 named functions (named even handler functions)
+Our Infinite Agenda - 5 named (did not name event handler functions) - should have named because it is easier to reference or repeat event handlers
+Using more named functions and a modular approach is a best-practice.  Had we named our event handlers, we would have had quite a few more named functions that would have been much easier to reuse or reference later on.
+
+Infinite Scroll - We used a % of page scrolled to trigger our function to render and additional week, Raine used a function that detected if the user had scrolled closer to the bottom of the page and would render one day at a time as the user scrolled.  This seems more stylistic in choice however Raine's produced a much smoother scroll bar movement.  Ours would jump as a week was rendered.
+
+
+Editing in place - We used a 3rd party library called XEditable to perform our editable appointments.  This worked very well and we were able to quickly and easily insert place editable forms in our calendar site.  Escaping the forms worked differently on our sites, ours would revert on blur while Raine's would revert back on Esc.  These have very different connotations in terms of usability.  While our site was more simple in its reversion to basic text, a misclick of the mouse could overwrite an unsaved appointment.  However without instructions on Raine's site, it is not immediately apparent that Esc will end the form.
+
+
+Both sites were extremely similar in terms of very little static HTML, most content was dynamically added using JavaScript.
+
+
+
+Definite stylistic differences - our calendar was seperated into blocks with a definite border and had buttons for deleting or adding new appointments.  Raine's calendar was much more minimalistic but easy to use and intuitive even without buttons to cue the user.  Also our calendar had no clear indication of where the weeks began and ended.
+
+
+
+
+
